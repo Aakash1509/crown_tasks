@@ -6,9 +6,9 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // Define API endpoint
-require_once('../includes/db_conn.php');
+require_once('db_conn.php');
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    // Perform full outer join query
+    // Perform left join query
     $sql = "SELECT 
     COALESCE(p.id, '') AS id, 
     COALESCE(p.name, '') AS name, 
@@ -19,21 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     COALESCE(c.cid, '') AS cid,
     COALESCE(c.cityname, '') AS cityname
     FROM personal p
-    LEFT JOIN city c ON p.city = c.cid
-
-    UNION
-
-    SELECT 
-    COALESCE(p.id, '') AS id, 
-    COALESCE(p.name, '') AS name, 
-    COALESCE(p.percentage, '') AS percentage, 
-    COALESCE(p.age, '') AS age, 
-    COALESCE(p.gender, '') AS gender, 
-    COALESCE(p.city, '') AS city, 
-    COALESCE(c.cid, '') AS cid,
-    COALESCE(c.cityname, '') AS cityname
-    FROM personal p
-    RIGHT JOIN city c ON p.city = c.cid;
+    LEFT JOIN city c ON p.city = c.cid;
 ";
 
     $result = $conn -> query($sql);

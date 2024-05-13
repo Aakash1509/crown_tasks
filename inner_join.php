@@ -6,9 +6,9 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // Define API endpoint
-require_once('../includes/db_conn.php');
+require_once('db_conn.php');
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    // Perform left join query
+    // Perform inner join query
     $sql = "SELECT 
     COALESCE(p.id, '') AS id, 
     COALESCE(p.name, '') AS name, 
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     COALESCE(c.cid, '') AS cid,
     COALESCE(c.cityname, '') AS cityname
     FROM personal p
-    LEFT JOIN city c ON p.city = c.cid;
+    INNER JOIN city c ON p.city = c.cid;
 ";
 
     $result = $conn -> query($sql);

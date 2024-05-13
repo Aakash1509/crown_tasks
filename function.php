@@ -1,6 +1,6 @@
 <?php
 
-require_once('../includes/db_conn.php');
+require_once('db_conn.php');
 
 function error422($message){
     $data = [
