@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "ac80e25e-52e7-437f-9f2e-3bd66f6d65d8",
+		"name": "JOIN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32283581"
+	},
+	"item": [
+		{
+			"name": "LEFT_JOIN",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/crownCrud/customers/left_join.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"crownCrud",
+						"customers",
+						"left_join.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RIGHT_JOIN",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/crownCrud/customers/right_join.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"crownCrud",
+						"customers",
+						"right_join.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INNER_JOIN",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/crownCrud/customers/inner_join.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"crownCrud",
+						"customers",
+						"inner_join.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FULL_OUTER_JOIN",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/crownCrud/customers/full_outer_join.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"crownCrud",
+						"customers",
+						"full_outer_join.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

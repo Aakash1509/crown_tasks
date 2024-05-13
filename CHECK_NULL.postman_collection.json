@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "d552e082-8f20-4d4c-adff-919f893da8ca",
+		"name": "CHECK_NULL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32283581"
+	},
+	"item": [
+		{
+			"name": "fetch_details",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "updating_null",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "        {\r\n            \"id\": \"5\",\r\n            \"name\": \"Aryan\",\r\n            \"email\": \"john.doe@example.com\",\r\n            \"age\": \"30\",\r\n            \"branch\": \"cse\",\r\n            \"year\": \"3\",\r\n            \"phone\": \"1234567890\"\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/crownCrud/customers/check_null.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"crownCrud",
+						"customers",
+						"check_null.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
