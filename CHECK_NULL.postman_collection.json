@@ -7,10 +7,34 @@
 	},
 	"item": [
 		{
-			"name": "fetch_details",
+			"name": "check_null_fields",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost/crownCrud/check_null.php?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"crownCrud",
+						"check_null.php"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
 			},
 			"response": []
 		},
@@ -29,14 +53,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/crownCrud/customers/check_null.php",
+					"raw": "http://localhost/crownCrud/check_null.php",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"crownCrud",
-						"customers",
 						"check_null.php"
 					]
 				}

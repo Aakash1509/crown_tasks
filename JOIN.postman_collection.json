@@ -8,18 +8,56 @@
 	"item": [
 		{
 			"name": "LEFT_JOIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Define the JSON schema\r",
+							"const schema = {\r",
+							"    \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r",
+							"    \"type\": \"array\",\r",
+							"    \"items\": {\r",
+							"        \"type\": \"object\",\r",
+							"        \"properties\": {\r",
+							"            \"id\": { \"type\": \"string\" },\r",
+							"            \"name\": { \"type\": \"string\" },\r",
+							"            \"percentage\": { \"type\": \"string\" },\r",
+							"            \"age\": { \"type\": \"string\" },\r",
+							"            \"gender\": { \"type\": \"string\", \"enum\": [\"M\", \"F\"] },\r",
+							"            \"city\": { \"type\": \"string\" },\r",
+							"            \"cid\": { \"type\": \"string\" },\r",
+							"            \"cityname\": { \"type\": \"string\" }\r",
+							"        },\r",
+							"        \"required\": [\"id\", \"name\", \"percentage\", \"age\", \"gender\", \"city\", \"cid\", \"cityname\"]\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// Parse the response body as JSON\r",
+							"const responseBodyJson = pm.response.json();\r",
+							"\r",
+							"// Validate the response body against the schema\r",
+							"pm.test(\"Response body matches schema\", function () {\r",
+							"    pm.expect(tv4.validate(responseBodyJson, schema)).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost/crownCrud/customers/left_join.php",
+					"raw": "http://localhost/crownCrud/left_join.php",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"crownCrud",
-						"customers",
 						"left_join.php"
 					]
 				}
@@ -32,14 +70,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost/crownCrud/customers/right_join.php",
+					"raw": "http://localhost/crownCrud/right_join.php",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"crownCrud",
-						"customers",
 						"right_join.php"
 					]
 				}
@@ -52,14 +89,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost/crownCrud/customers/inner_join.php",
+					"raw": "http://localhost/crownCrud/inner_join.php",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"crownCrud",
-						"customers",
 						"inner_join.php"
 					]
 				}
@@ -72,14 +108,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost/crownCrud/customers/full_outer_join.php",
+					"raw": "http://localhost/crownCrud/full_outer_join.php",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"crownCrud",
-						"customers",
 						"full_outer_join.php"
 					]
 				}

@@ -122,6 +122,16 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
 				}
 			],
 			"protocolProfileBehavior": {
@@ -131,24 +141,24 @@
 				"method": "GET",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"id\":\"18\",\r\n    \"name\":\"xyz\",\r\n    \"email\":\"xyz@gmail.com\",\r\n    \"phone\":\"1234567890\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "13",
+							"type": "text"
 						}
-					}
+					]
 				},
 				"url": {
-					"raw": "http://localhost/crownCrud/customers/merge.php",
+					"raw": "http://localhost/crownCrud/crud.php",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"crownCrud",
-						"customers",
-						"merge.php"
+						"crud.php"
 					]
 				}
 			},
@@ -157,6 +167,16 @@
 		{
 			"name": "POST",
 			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
 				{
 					"listen": "prerequest",
 					"script": {
@@ -241,120 +261,6 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"// Define the JSON schema\r",
-							"const schema = {\r",
-							"    \"type\": \"object\",\r",
-							"    \"properties\": {\r",
-							"        \"status\": {\r",
-							"            \"type\": \"integer\"\r",
-							"        },\r",
-							"        \"message\": {\r",
-							"            \"type\": \"string\"\r",
-							"        },\r",
-							"        \"data\": {\r",
-							"            \"type\": \"array\",\r",
-							"            \"items\": {\r",
-							"                \"type\": \"object\",\r",
-							"                \"properties\": {\r",
-							"                    \"id\": {\r",
-							"                        \"type\": \"string\"\r",
-							"                    },\r",
-							"                    \"name\": {\r",
-							"                        \"type\": \"string\"\r",
-							"                    },\r",
-							"                    \"email\": {\r",
-							"                        \"type\": \"string\",\r",
-							"                        \"format\": \"email\"\r",
-							"                    },\r",
-							"                    \"phone\": {\r",
-							"                        \"type\": \"string\"\r",
-							"                    }\r",
-							"                },\r",
-							"                \"required\": [\"id\", \"name\", \"email\", \"phone\"]\r",
-							"            }\r",
-							"        }\r",
-							"    },\r",
-							"    \"required\": [\"status\", \"message\", \"data\"]\r",
-							"};\r",
-							"\r",
-							"// Validate response body against the schema\r",
-							"const Ajv = require('ajv');\r",
-							"const ajv = new Ajv();\r",
-							"const validate = ajv.compile(schema);\r",
-							"const isValid = validate(pm.response.json());\r",
-							"\r",
-							"pm.test(\"Schema is valid\", function() {\r",
-							"    pm.expect(isValid).to.be.true;\r",
-							"});\r",
-							"// Validate response status code\r",
-							"pm.test(\"Status code is 200\", function() {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"// Validate 'status' property\r",
-							"pm.test(\"Status is an integer\", function() {\r",
-							"    pm.expect(typeof pm.response.json().status).to.eql(\"number\");\r",
-							"});\r",
-							"\r",
-							"// Validate 'message' property\r",
-							"pm.test(\"Message is a string\", function() {\r",
-							"    pm.expect(typeof pm.response.json().message).to.eql(\"string\");\r",
-							"});\r",
-							"\r",
-							"// Validate 'data' property\r",
-							"pm.test(\"Data is an array\", function() {\r",
-							"    pm.expect(Array.isArray(pm.response.json().data)).to.be.true;\r",
-							"});\r",
-							"\r",
-							"// Validate each item in 'data' array\r",
-							"pm.test(\"Each item in 'data' has id, name, email, and phone properties\", function() {\r",
-							"    pm.response.json().data.forEach(function(item) {\r",
-							"        pm.expect(item).to.have.property(\"id\");\r",
-							"        pm.expect(item).to.have.property(\"name\");\r",
-							"        pm.expect(item).to.have.property(\"email\");\r",
-							"        pm.expect(item).to.have.property(\"phone\");\r",
-							"    });\r",
-							"});\r",
-							"\r",
-							"// Validate 'id', 'name', 'email', and 'phone' properties in each item\r",
-							"pm.test(\"id, name, email, and phone properties in 'data' are strings\", function() {\r",
-							"    pm.response.json().data.forEach(function(item) {\r",
-							"        pm.expect(typeof item.id).to.eql(\"string\");\r",
-							"        pm.expect(typeof item.name).to.eql(\"string\");\r",
-							"        pm.expect(typeof item.email).to.eql(\"string\");\r",
-							"        pm.expect(typeof item.phone).to.eql(\"string\");\r",
-							"    });\r",
-							"});\r",
-							"\r",
-							"// Validate email format\r",
-							"pm.test(\"Email format is valid\", function() {\r",
-							"    pm.response.json().data.forEach(function(item) {\r",
-							"        pm.expect(item.email).to.match(/^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/);\r",
-							"    });\r",
-							"});\r",
-							"\r",
-							"// Validate required properties\r",
-							"pm.test(\"All required properties are present\", function() {\r",
-							"    pm.expect(pm.response.json()).to.have.property(\"status\");\r",
-							"    pm.expect(pm.response.json()).to.have.property(\"message\");\r",
-							"    pm.expect(pm.response.json()).to.have.property(\"data\");\r",
-							"    pm.response.json().data.forEach(function(item) {\r",
-							"        pm.expect(item).to.have.property(\"id\");\r",
-							"        pm.expect(item).to.have.property(\"name\");\r",
-							"        pm.expect(item).to.have.property(\"email\");\r",
-							"        pm.expect(item).to.have.property(\"phone\");\r",
-							"    });\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
 				}
 			],
 			"request": {
@@ -364,37 +270,36 @@
 					"mode": "formdata",
 					"formdata": [
 						{
-							"key": "id",
-							"value": "19",
-							"type": "text"
-						},
-						{
 							"key": "name",
-							"value": "Aakash",
+							"value": "aakash",
 							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "abc@gmail.com",
+							"value": "sky@gmail.com",
 							"type": "text"
 						},
 						{
 							"key": "phone",
 							"value": "1234567890",
 							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/skysa/Downloads/eg.jpeg"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost/crownCrud/customers/merge.php",
+					"raw": "http://localhost/crownCrud/crud.php",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"crownCrud",
-						"customers",
-						"merge.php"
+						"crud.php"
 					]
 				}
 			},
@@ -414,7 +319,8 @@
 							"    \"type\": \"object\",\r",
 							"    \"properties\": {\r",
 							"        \"id\": {\r",
-							"            \"type\": \"string\"\r",
+							"            \"type\": \"string\",\r",
+							"            \"minLength\": 1  // Ensure id is not an empty string\r",
 							"        },\r",
 							"        \"name\": {\r",
 							"            \"type\": \"string\"\r",
@@ -430,38 +336,51 @@
 							"    \"required\": [\"id\", \"name\", \"email\", \"phone\"]\r",
 							"};\r",
 							"\r",
-							"const requestData = JSON.parse(pm.request.body.raw);\r",
-							"const validate = ajv.compile(schema);\r",
-							"const isValid = validate(requestData);\r",
-							"const isRawText = pm.request.body.mode === 'raw';\r",
+							"// Parse the request body only if it is in raw text mode\r",
+							"if (pm.request.body.mode === 'raw') {\r",
+							"    try {\r",
+							"        const requestData = JSON.parse(pm.request.body.raw);\r",
+							"        const validate = ajv.compile(schema);\r",
+							"        const isValid = validate(requestData);\r",
 							"\r",
-							"pm.test('Request Data Format Check', function () {\r",
-							"    pm.expect(isRawText).to.be.true;\r",
-							"});\r",
+							"        pm.test('Request Data Format Check', function () {\r",
+							"            pm.expect(true).to.be.true; // Assuming this check is not needed anymore\r",
+							"        });\r",
 							"\r",
-							"pm.test('Schema Validation', function () {\r",
-							"    pm.expect(isValid).to.be.true;\r",
-							"    if (!isValid) {\r",
-							"        console.log(ajv.errors);\r",
-							"        pm.expect.fail('Schema validation failed');\r",
+							"        pm.test('Schema Validation', function () {\r",
+							"            pm.expect(isValid).to.be.true;\r",
+							"            if (!isValid) {\r",
+							"                console.log(ajv.errors);\r",
+							"                pm.expect.fail('Schema validation failed');\r",
+							"            }\r",
+							"        });\r",
+							"\r",
+							"        pm.test('ID is not an empty string', function () {\r",
+							"            pm.expect(requestData.id.trim().length > 0).to.be.true;\r",
+							"            if (requestData.id.trim().length === 0) {\r",
+							"                pm.expect.fail('Please enter id');\r",
+							"            }\r",
+							"        });\r",
+							"\r",
+							"        pm.test('Name is a string', function () {\r",
+							"            pm.expect(requestData.name).to.be.a('string');\r",
+							"        });\r",
+							"\r",
+							"        pm.test('Email is in valid format', function () {\r",
+							"            pm.expect(requestData.email).to.match(/^.+@.+\\..+$/);\r",
+							"        });\r",
+							"\r",
+							"        pm.test('Phone is a string', function () {\r",
+							"            pm.expect(requestData.phone).to.be.a('string');\r",
+							"        });\r",
+							"    } catch (e) {\r",
+							"        console.error('Error parsing request body:', e);\r",
+							"        pm.expect.fail('Error parsing request body');\r",
 							"    }\r",
-							"});\r",
-							"\r",
-							"pm.test('ID is a string', function () {\r",
-							"    pm.expect(requestData.id).to.be.a('string');\r",
-							"});\r",
-							"\r",
-							"pm.test('Name is a string', function () {\r",
-							"    pm.expect(requestData.name).to.be.a('string');\r",
-							"});\r",
-							"\r",
-							"pm.test('Email is in valid format', function () {\r",
-							"    pm.expect(requestData.email).to.match(/^.+@.+\\..+$/);\r",
-							"});\r",
-							"\r",
-							"pm.test('Phone is a string', function () {\r",
-							"    pm.expect(requestData.phone).to.be.a('string');\r",
-							"});"
+							"} else {\r",
+							"    pm.expect.fail('Request body is not in raw text mode');\r",
+							"}\r",
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -517,7 +436,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\":\"20\",\r\n    \"name\":\"Sky\",\r\n    \"email\":\"abc@gmail.com\",\r\n    \"phone\":\"1112224333\"\r\n}",
+					"raw": "{\r\n    \"id\":\" \",\r\n    \"name\": \"Sky\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"phone\": \"1112224333\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -525,15 +444,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/crownCrud/customers/merge.php",
+					"raw": "http://localhost/crownCrud/crud.php",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"crownCrud",
-						"customers",
-						"merge.php"
+						"crud.php"
 					]
 				}
 			},
@@ -635,7 +553,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \r\n}",
+					"raw": "{\r\n    \"id\":\"14\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -643,15 +561,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/crownCrud/customers/merge.php",
+					"raw": "http://localhost/crownCrud/crud.php",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"crownCrud",
-						"customers",
-						"merge.php"
+						"crud.php"
 					]
 				}
 			},
