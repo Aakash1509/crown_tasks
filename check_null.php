@@ -76,7 +76,7 @@ function error422($message){
     header("HTTP/1.0 422 Unprocessable Entity");
     echo json_encode($data);
     exit();
-}*/
+}
 
 //To update null values
 if ($_SERVER["REQUEST_METHOD"] == "PUT") {
