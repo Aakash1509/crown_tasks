@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "ade6d18f-22a1-441b-8925-7101c523f126",
+		"name": "SEARCH_FUNCTIONALITY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32283581"
+	},
+	"item": [
+		{
+			"name": "search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "a",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/crownCrud/search_functionality.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"crownCrud",
+						"search_functionality.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
