@@ -1283,12 +1283,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{local_path}}dashbord/counsellor_dashbord.php",
+							"raw": "{{path}}dashboard/counsellor_dashboard.php",
 							"host": [
-								"{{local_path}}dashbord"
+								"{{path}}dashboard"
 							],
 							"path": [
-								"counsellor_dashbord.php"
+								"counsellor_dashboard.php"
 							]
 						}
 					},
@@ -1462,12 +1462,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{path}}dashbord/student_dashbord.php",
+							"raw": "{{path}}dashboard/student_dashboard.php",
 							"host": [
-								"{{path}}dashbord"
+								"{{path}}dashboard"
 							],
 							"path": [
-								"student_dashbord.php"
+								"student_dashboard.php"
 							]
 						}
 					},
@@ -1573,7 +1573,131 @@
 			"name": "fees",
 			"item": [
 				{
-					"name": "manager_receipt_cr",
+					"name": "msp_receipt_cr",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Define the JSON schema\r",
+									"const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"status\": {\r",
+									"      \"type\": \"boolean\"\r",
+									"    },\r",
+									"    \"message\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"data\": {\r",
+									"      \"type\": \"array\",\r",
+									"      \"items\": {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"          \"user_code\": {\r",
+									"            \"type\": \"string\"\r",
+									"          },\r",
+									"          \"title\": {\r",
+									"            \"type\": \"string\"\r",
+									"          },\r",
+									"          \"cheque_upi_person\": {\r",
+									"            \"type\": \"string\"\r",
+									"          },\r",
+									"          \"type\": {\r",
+									"            \"type\": \"string\"\r",
+									"          },\r",
+									"          \"amount\": {\r",
+									"            \"type\": \"string\"\r",
+									"          },\r",
+									"          \"mode\": {\r",
+									"            \"type\": \"string\"\r",
+									"          },\r",
+									"          \"payment_time\": {\r",
+									"            \"type\": \"string\"\r",
+									"          },\r",
+									"          \"first_name\": {\r",
+									"            \"type\": \"string\"\r",
+									"          },\r",
+									"          \"last_name\": {\r",
+									"            \"type\": \"string\"\r",
+									"          },\r",
+									"          \"next_fees\": {\r",
+									"            \"type\": \"string\"\r",
+									"          }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"          \"user_code\",\r",
+									"          \"title\",\r",
+									"          \"cheque_upi_person\",\r",
+									"          \"type\",\r",
+									"          \"amount\",\r",
+									"          \"mode\",\r",
+									"          \"payment_time\",\r",
+									"          \"first_name\",\r",
+									"          \"last_name\",\r",
+									"          \"next_fees\"\r",
+									"        ]\r",
+									"      }\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"status\",\r",
+									"    \"message\",\r",
+									"    \"data\"\r",
+									"  ]\r",
+									"};\r",
+									"\r",
+									"// Validate the response schema\r",
+									"pm.test('Response should conform to the defined schema', function() {\r",
+									"  pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"// Additional tests\r",
+									"pm.test('Status code is 200', function() {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Response status is true', function() {\r",
+									"  var jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.status).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test('Message is \"Receipt Details\"', function() {\r",
+									"  var jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.message).to.eql(\"Receipt Details\");\r",
+									"});\r",
+									"\r",
+									"pm.test('Data array is not empty', function() {\r",
+									"  var jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.data.length).to.be.above(0);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Get the value of flag from the URL parameters\r",
+									"const fees_record_id = pm.request.url.getQueryString('fees_record_id');\r",
+									"\r",
+									"// Check if flag is present\r",
+									"pm.test('fees_record_id is present in the URL parameters', function() {\r",
+									"  pm.expect(fees_record_id).not.to.be.undefined;\r",
+									"  pm.expect(fees_record_id).not.to.be.null;\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1595,12 +1719,12 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{path}}fees/manager_receipt_cr.php?fees_record_id=12",
+							"raw": "{{path}}fees/msp_receipt_cr.php?fees_record_id=12",
 							"host": [
 								"{{path}}fees"
 							],
 							"path": [
-								"manager_receipt_cr.php"
+								"msp_receipt_cr.php"
 							],
 							"query": [
 								{
@@ -1613,7 +1737,110 @@
 					"response": []
 				},
 				{
-					"name": "manager_receipt_cr",
+					"name": "msp_receipt_cr",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// URL to load the Ajv library\r",
+									"const ajvUrl = 'https://cdnjs.cloudflare.com/ajax/libs/ajv/6.12.6/ajv.min.js';\r",
+									"\r",
+									"// Function to validate date format (YYYY-MM-DD)\r",
+									"function isValidDate(dateString) {\r",
+									"    const regex = /^\\d{4}-\\d{2}-\\d{2}$/;\r",
+									"    return regex.test(dateString);\r",
+									"}\r",
+									"\r",
+									"// Function to validate date-time format (YYYY-MM-DD HH:MM:SS)\r",
+									"function isValidDateTime(dateTimeString) {\r",
+									"    const regex = /^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$/;\r",
+									"    return regex.test(dateTimeString);\r",
+									"}\r",
+									"\r",
+									"// Define the JSON schema\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"fees_record_id\": { \"type\": \"integer\" },\r",
+									"        \"payment_date\": { \"type\": \"string\", \"format\": \"date-time\" },\r",
+									"        \"amount_paid\": { \"type\": \"integer\" },\r",
+									"        \"cheque_upi_person\": { \"type\": \"string\" },\r",
+									"        \"title\": { \"type\": \"string\" },\r",
+									"        \"pay_via\": { \"type\": \"string\", \"enum\": [\"CHEQUE\", \"UPI\", \"CASH\", \"BANK\"] },\r",
+									"        \"cheque_date\": { \"type\": \"string\", \"format\": \"date\" } // <-- Changed format to \"date\"\r",
+									"    },\r",
+									"    \"required\": [\"fees_record_id\", \"payment_date\", \"amount_paid\", \"cheque_upi_person\", \"title\", \"pay_via\", \"cheque_date\"]\r",
+									"};\r",
+									"\r",
+									"// Fetch Ajv library\r",
+									"pm.sendRequest(ajvUrl, (error, response) => {\r",
+									"    if (error) {\r",
+									"        pm.test(\"Load Ajv library\", function () {\r",
+									"            pm.expect(error).to.be.null;\r",
+									"        });\r",
+									"        return;\r",
+									"    }\r",
+									"\r",
+									"    // Evaluate the Ajv library\r",
+									"    eval(response.text());\r",
+									"\r",
+									"    // Initialize Ajv\r",
+									"    const ajv = new Ajv();\r",
+									"    ajv.addFormat('date-time', isValidDateTime);\r",
+									"    ajv.addFormat('date', isValidDate);\r",
+									"\r",
+									"    // Get form data\r",
+									"    const formData = {\r",
+									"        \"fees_record_id\": parseInt(pm.variables.get(\"fees_record_id\")),\r",
+									"        \"payment_date\": pm.variables.get(\"payment_date\"),\r",
+									"        \"amount_paid\": parseInt(pm.variables.get(\"amount_paid\")),\r",
+									"        \"cheque_upi_person\": pm.variables.get(\"cheque_upi_person\"),\r",
+									"        \"title\": pm.variables.get(\"title\"),\r",
+									"        \"pay_via\": pm.variables.get(\"pay_via\"),\r",
+									"        \"cheque_date\": pm.variables.get(\"cheque_date\")\r",
+									"    };\r",
+									"\r",
+									"    // Validate form data against the schema\r",
+									"    const validate = ajv.compile(schema);\r",
+									"    const valid = validate(formData);\r",
+									"\r",
+									"    pm.test(\"Form data validation\", function () {\r",
+									"        pm.expect(valid).to.be.true;\r",
+									"\r",
+									"        if (!valid) {\r",
+									"            pm.test(\"Form data validation errors\", function () {\r",
+									"                pm.expect(validate.errors).to.be.empty;\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check status and message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    \r",
+									"    // Check if the status is true\r",
+									"    pm.expect(jsonData.status).to.be.true;\r",
+									"    \r",
+									"    // Check if the message is \"Fees Request Sent Successfully...\"\r",
+									"    pm.expect(jsonData.message).to.eql(\"Fees Request Sent Successfully...\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1680,12 +1907,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{path}}fees/manager_receipt_cr.php",
+							"raw": "{{path}}fees/msp_receipt_cr.php",
 							"host": [
 								"{{path}}fees"
 							],
 							"path": [
-								"manager_receipt_cr.php"
+								"msp_receipt_cr.php"
 							]
 						}
 					},
@@ -1693,6 +1920,83 @@
 				},
 				{
 					"name": "manager_term_cr",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Define the JSON schema\r",
+									"const Ajv = require('ajv');\r",
+									"\r",
+									"// Define the JSON schema\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"term_title\": { \"type\": \"string\" },\r",
+									"        \"fees_data\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"properties\": {\r",
+									"                    \"user_code\": { \"type\": \"string\" },\r",
+									"                    \"student_fees\": { \"type\": \"number\" }\r",
+									"                },\r",
+									"                \"required\": [\"user_code\", \"student_fees\"]\r",
+									"            }\r",
+									"        },\r",
+									"        \"fees_sdate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"        \"fees_edate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"        \"total_fees\": { \"type\": \"number\" }\r",
+									"    },\r",
+									"    \"required\": [\"term_title\", \"fees_data\", \"fees_sdate\", \"fees_edate\", \"total_fees\"]\r",
+									"};\r",
+									"\r",
+									"// Validate the form data against the schema\r",
+									"const jsonData = pm.request.body.toJSON();\r",
+									"const ajv = new Ajv();\r",
+									"const validate = ajv.compile(schema);\r",
+									"const valid = validate(jsonData);\r",
+									"\r",
+									"if (!valid) {\r",
+									"    const errors = validate.errors.map(error => error.message);\r",
+									"    pm.environment.set(\"validationErrors\", JSON.stringify(errors));\r",
+									"} else {\r",
+									"    pm.environment.set(\"validationErrors\", \"[]\"); // Set as empty array if validation passed\r",
+									"}\r",
+									"pm.test(\"Form data validation\", function() {\r",
+									"    const errors = pm.environment.get(\"validationErrors\");\r",
+									"    if (errors) {\r",
+									"        console.error(\"Validation errors:\", JSON.parse(errors));\r",
+									"        pm.expect(errors).to.be.empty;\r",
+									"    } else {\r",
+									"        console.log(\"Validation passed\");\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status is true\", function () {\r",
+									"    pm.response.to.have.jsonBody('status', true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify message is 'Insert Operation Successfully'\", function () {\r",
+									"    pm.response.to.have.jsonBody('message', 'Insert Operation Successfully');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1737,16 +2041,11 @@
 							]
 						},
 						"url": {
-							"raw": "https://glexas.com/hostel_data/API/fees/manager_term_cr.php",
-							"protocol": "https",
+							"raw": "{{path}}fees/manager_term_cr.php",
 							"host": [
-								"glexas",
-								"com"
+								"{{path}}fees"
 							],
 							"path": [
-								"hostel_data",
-								"API",
-								"fees",
 								"manager_term_cr.php"
 							]
 						}
@@ -1755,6 +2054,95 @@
 				},
 				{
 					"name": "manager_term_cr",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"status\": { \"type\": \"boolean\" },\r",
+									"    \"message\": { \"type\": \"string\" },\r",
+									"    \"fees_sdate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"    \"fees_edate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"    \"total_fees\": { \"type\": \"string\" },\r",
+									"    \"user_count\": { \"type\": \"string\" },\r",
+									"    \"data\": {\r",
+									"      \"type\": \"array\",\r",
+									"      \"items\": {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"          \"term_title\": { \"type\": \"string\" },\r",
+									"          \"fees_sdate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"          \"fees_edate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"          \"total_fees\": { \"type\": \"string\" },\r",
+									"          \"mess_fees\": { \"type\": \"string\" },\r",
+									"          \"fees_detail_id\": { \"type\": \"string\" }\r",
+									"        },\r",
+									"        \"required\": [\"term_title\", \"fees_sdate\", \"fees_edate\", \"total_fees\", \"mess_fees\", \"fees_detail_id\"]\r",
+									"      }\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\"status\", \"message\", \"fees_sdate\", \"fees_edate\", \"total_fees\", \"user_count\", \"data\"]\r",
+									"};\r",
+									"\r",
+									"const Ajv = require('ajv');\r",
+									"const ajv = new Ajv();\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"const validate = ajv.compile(schema);\r",
+									"const valid = validate(response);\r",
+									"\r",
+									"if (!valid) {\r",
+									"  console.log(validate.errors);\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema validation', function() {\r",
+									"  pm.expect(valid, JSON.stringify(validate.errors)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"// Additional Test Cases\r",
+									"\r",
+									"// 1. Status and Message Validation\r",
+									"pm.test('Status is boolean', function() {\r",
+									"  pm.expect(response.status).to.be.a('boolean');\r",
+									"});\r",
+									"\r",
+									"pm.test('Message is a string', function() {\r",
+									"  pm.expect(response.message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"// 2. Date Format Validation\r",
+									"pm.test('fees_sdate is a valid date', function() {\r",
+									"  pm.expect(new Date(response.fees_sdate).toString()).not.to.equal('Invalid Date');\r",
+									"});\r",
+									"\r",
+									"pm.test('fees_edate is a valid date', function() {\r",
+									"  pm.expect(new Date(response.fees_edate).toString()).not.to.equal('Invalid Date');\r",
+									"});\r",
+									"\r",
+									"// 3. Total Fees and User Count Validation\r",
+									"pm.test('total_fees is a string', function() {\r",
+									"  pm.expect(response.total_fees).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test('user_count is a string', function() {\r",
+									"  pm.expect(response.user_count).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"// 4. Data Array Validation\r",
+									"pm.test('Data is an array', function() {\r",
+									"  pm.expect(response.data).to.be.an('array');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1794,6 +2182,53 @@
 				},
 				{
 					"name": "manager_term_student_crud",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(pm.request.body.raw);\r",
+									"var schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"fees_detail_id\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"user_code\": {\r",
+									"            \"type\": \"string\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"fees_detail_id\", \"user_code\"]\r",
+									"};\r",
+									"\r",
+									"pm.test('Request body is valid', function () {\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is true\", function () {\r",
+									"    pm.response.to.have.jsonBody('status', true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message is 'Deleted Successfully'\", function () {\r",
+									"    pm.response.to.have.jsonBody('message', 'Deleted Successfully');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1830,6 +2265,61 @@
 				},
 				{
 					"name": "manager_term_student_crud",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Define the JSON schema\r",
+									"var schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"fees_record_id\": { \"type\": \"integer\" },\r",
+									"    \"user_code\": { \"type\": \"string\", \"enum\": [\"Student\"] },\r",
+									"    \"fees_sdate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"    \"fees_edate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"    \"total_fees\": { \"type\": \"integer\" }\r",
+									"  },\r",
+									"  \"required\": [\"fees_record_id\", \"user_code\", \"fees_sdate\", \"fees_edate\", \"total_fees\"]\r",
+									"};\r",
+									"\r",
+									"// Validate the incoming form data against the schema\r",
+									"var jsonData = pm.request.body.formdata.toJSON();\r",
+									"var valid = tv4.validate(jsonData, schema);\r",
+									"\r",
+									"// Log validation result\r",
+									"if (!valid) {\r",
+									"  console.log(\"Validation failed:\", tv4.error);\r",
+									"  pm.environment.set(\"stopRequest\", true); // Set a variable to stop the request\r",
+									"}\r",
+									"if (pm.environment.get(\"stopRequest\")) {\r",
+									"  pm.test.skip(\"Request stopped due to validation failure\");\r",
+									"  return;\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify status is true\", function () {\r",
+									"    pm.response.to.have.jsonBody('status', true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify message is 'Insert Operation Successfully'\", function () {\r",
+									"    pm.response.to.have.jsonBody('message', 'Insert Operation Successfully');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1887,6 +2377,105 @@
 				},
 				{
 					"name": "manager_term_student_crud",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Get the value of fees_record_id from the URL parameters\r",
+									"const feesRecordId = pm.request.url.getQueryString('fees_record_id');\r",
+									"\r",
+									"// Check if fees_record_id is present\r",
+									"pm.test('fees_record_id is present in the URL parameters', function() {\r",
+									"  pm.expect(feesRecordId).not.to.be.undefined;\r",
+									"  pm.expect(feesRecordId).not.to.be.null;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Define the schema\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"status\": { \"type\": \"boolean\" },\r",
+									"        \"message\": { \"type\": \"string\" },\r",
+									"        \"data\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"properties\": {\r",
+									"                    \"photo\": { \"type\": \"string\" },\r",
+									"                    \"user_code\": { \"type\": \"string\" },\r",
+									"                    \"first_name\": { \"type\": \"string\" },\r",
+									"                    \"last_name\": { \"type\": \"string\" },\r",
+									"                    \"mobile_number\": { \"type\": \"string\" },\r",
+									"                    \"fees_detail_id\": { \"type\": \"string\" },\r",
+									"                    \"fees_sdate\": { \"type\": \"string\" },\r",
+									"                    \"fees_edate\": { \"type\": \"string\" },\r",
+									"                    \"total_fees\": { \"type\": \"string\" },\r",
+									"                    \"mess_fees\": { \"type\": \"string\" }\r",
+									"                },\r",
+									"                \"required\": [\r",
+									"                    \"photo\",\r",
+									"                    \"user_code\",\r",
+									"                    \"first_name\",\r",
+									"                    \"last_name\",\r",
+									"                    \"mobile_number\",\r",
+									"                    \"fees_detail_id\",\r",
+									"                    \"fees_sdate\",\r",
+									"                    \"fees_edate\",\r",
+									"                    \"total_fees\",\r",
+									"                    \"mess_fees\"\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"status\", \"message\", \"data\"]\r",
+									"};\r",
+									"\r",
+									"// Test the response against the schema\r",
+									"pm.test(\"Response should match schema\", function () {\r",
+									"    pm.response.to.have.jsonBody(schema);\r",
+									"});\r",
+									"\r",
+									"// Additional test cases\r",
+									"pm.test(\"Status should be true\", function () {\r",
+									"    pm.expect(pm.response.json().status).to.equal(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should be a non-empty string\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.be.a(\"string\").and.to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each item should have user_code 'Student11'\", function () {\r",
+									"    pm.response.json().data.forEach(function (item) {\r",
+									"        pm.expect(item.user_code).to.equal(\"Student11\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Data should contain at least one item\", function () {\r",
+									"    pm.expect(pm.response.json().data.length).to.be.at.least(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each item should have a non-empty 'total_fees'\", function () {\r",
+									"    pm.response.json().data.forEach(function (item) {\r",
+									"        pm.expect(item.total_fees).to.be.a(\"string\").and.to.not.be.empty;\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1927,6 +2516,99 @@
 				},
 				{
 					"name": "manager_term_student_crud",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Define the schema for validation\r",
+									"var schema = {\r",
+									"    \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"fees_detail_id\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        },\r",
+									"        \"user_code\": {\r",
+									"            \"type\": \"string\",\r",
+									"            \"enum\": [\"Student\", \"Teacher\", \"Parent\", \"Staff\"]\r",
+									"        },\r",
+									"        \"fees_sdate\": {\r",
+									"            \"type\": \"string\",\r",
+									"            \"format\": \"date\"\r",
+									"        },\r",
+									"        \"fees_edate\": {\r",
+									"            \"type\": \"string\",\r",
+									"            \"format\": \"date\"\r",
+									"        },\r",
+									"        \"total_fees\": {\r",
+									"            \"type\": \"integer\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"fees_detail_id\", \"user_code\", \"fees_sdate\", \"fees_edate\", \"total_fees\"]\r",
+									"};\r",
+									"\r",
+									"// Parse the raw request body as JSON\r",
+									"var jsonData = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"// Validate the request body against the schema\r",
+									"pm.test('Request body is valid', function() {\r",
+									"    var isValid = tv4.validate(jsonData, schema);\r",
+									"    pm.expect(isValid).to.be.true;\r",
+									"});\r",
+									"\r",
+									"// Check Required Fields\r",
+									"pm.test('Required fields are present', function() {\r",
+									"    pm.expect(jsonData).to.have.property('fees_detail_id');\r",
+									"    pm.expect(jsonData).to.have.property('user_code');\r",
+									"    pm.expect(jsonData).to.have.property('fees_sdate');\r",
+									"    pm.expect(jsonData).to.have.property('fees_edate');\r",
+									"    pm.expect(jsonData).to.have.property('total_fees');\r",
+									"});\r",
+									"\r",
+									"// Check Field Types\r",
+									"pm.test('Field types are correct', function() {\r",
+									"    pm.expect(jsonData.fees_detail_id).to.be.a('number');\r",
+									"    pm.expect(jsonData.user_code).to.be.oneOf(['Student', 'Teacher', 'Parent', 'Staff']);\r",
+									"    pm.expect(jsonData.fees_sdate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/); // Date format check\r",
+									"    pm.expect(jsonData.fees_edate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/); // Date format check\r",
+									"    pm.expect(jsonData.total_fees).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"// Check Enum Value\r",
+									"pm.test('user_code is one of the allowed values', function() {\r",
+									"    pm.expect(jsonData.user_code).to.be.oneOf(['Student', 'Teacher', 'Parent', 'Staff']);\r",
+									"});\r",
+									"\r",
+									"// Check Total Fees Range\r",
+									"pm.test('total_fees is within valid range', function() {\r",
+									"    pm.expect(jsonData.total_fees).to.be.at.least(0); // Check if total_fees is non-negative\r",
+									"    // Add additional checks for the maximum value if needed\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check status is true\", function() {\r",
+									"    pm.expect(pm.response.json().status).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check message is 'Updated Successfully'\", function() {\r",
+									"    pm.expect(pm.response.json().message).to.eql(\"Updated Successfully\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1963,6 +2645,110 @@
 				},
 				{
 					"name": "msp_student_term_list_r",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Get the value of user_code from the URL parameters\r",
+									"const userCode = pm.request.url.getQueryString('user_code');\r",
+									"\r",
+									"// Check if user_code is present\r",
+									"pm.test('user_code is present in the URL parameters', function() {\r",
+									"  pm.expect(userCode).not.to.be.undefined;\r",
+									"  pm.expect(userCode).not.to.be.null;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// JSON Schema\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"status\": { \"type\": \"boolean\" },\r",
+									"        \"message\": { \"type\": \"string\" },\r",
+									"        \"data\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"properties\": {\r",
+									"                    \"fees_record_id\": { \"type\": \"string\" },\r",
+									"                    \"user_code\": { \"type\": \"string\" },\r",
+									"                    \"fees_sdate\": { \"type\": \"string\" },\r",
+									"                    \"fees_edate\": { \"type\": \"string\" },\r",
+									"                    \"deposit\": { \"type\": \"string\" },\r",
+									"                    \"total_fees\": { \"type\": \"string\" },\r",
+									"                    \"mess_pending\": { \"type\": \"string\" },\r",
+									"                    \"mess_fees\": { \"type\": \"string\" },\r",
+									"                    \"paid_fees\": { \"type\": \"string\" },\r",
+									"                    \"mess_paid\": { \"type\": \"string\" },\r",
+									"                    \"pending_fees\": { \"type\": \"string\" },\r",
+									"                    \"next_fees\": { \"type\": \"string\" },\r",
+									"                    \"term_title\": { \"type\": \"string\" }\r",
+									"                },\r",
+									"                \"required\": [\r",
+									"                    \"fees_record_id\",\r",
+									"                    \"user_code\",\r",
+									"                    \"fees_sdate\",\r",
+									"                    \"fees_edate\",\r",
+									"                    \"deposit\",\r",
+									"                    \"total_fees\",\r",
+									"                    \"mess_pending\",\r",
+									"                    \"mess_fees\",\r",
+									"                    \"paid_fees\",\r",
+									"                    \"mess_paid\",\r",
+									"                    \"pending_fees\",\r",
+									"                    \"next_fees\",\r",
+									"                    \"term_title\"\r",
+									"                ]\r",
+									"            }\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"status\", \"message\", \"data\"]\r",
+									"};\r",
+									"\r",
+									"// Test Cases\r",
+									"pm.test(\"Response should be a valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should adhere to the schema\", function () {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response status should be true\", function () {\r",
+									"    pm.expect(pm.response.json().status).to.equal(true);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response message should be a string\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each item in data array should have fees_record_id as a string\", function () {\r",
+									"    pm.response.json().data.forEach(function (item) {\r",
+									"        pm.expect(item.fees_record_id).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each item in data array should have user_code as a string\", function () {\r",
+									"    pm.response.json().data.forEach(function (item) {\r",
+									"        pm.expect(item.user_code).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1984,7 +2770,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{path}}fees/msp_student_term_list_r.php",
+							"raw": "{{path}}fees/msp_student_term_list_r.php?user_code=Student5",
 							"host": [
 								"{{path}}fees"
 							],
@@ -1994,8 +2780,7 @@
 							"query": [
 								{
 									"key": "user_code",
-									"value": "Student2",
-									"disabled": true
+									"value": "Student5"
 								}
 							]
 						}
@@ -2004,6 +2789,140 @@
 				},
 				{
 					"name": "manager_cheque_ru",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Get the value of flag from the URL parameters\r",
+									"const flag = pm.request.url.getQueryString('flag');\r",
+									"\r",
+									"// Check if flag is present\r",
+									"pm.test('flag is present in the URL parameters', function() {\r",
+									"  pm.expect(flag).not.to.be.undefined;\r",
+									"  pm.expect(flag).not.to.be.null;\r",
+									"});\r",
+									"// Get the value of flag from the URL parameters\r",
+									"const cheque_status = pm.request.url.getQueryString('cheque_status');\r",
+									"\r",
+									"// Check if flag is present\r",
+									"pm.test('cheque_status is present in the URL parameters', function() {\r",
+									"  pm.expect(cheque_status).not.to.be.undefined;\r",
+									"  pm.expect(cheque_status).not.to.be.null;\r",
+									"});\r",
+									"\r",
+									"// Get the value of flag from the URL parameters\r",
+									"const from_date = pm.request.url.getQueryString('from_date');\r",
+									"\r",
+									"// Check if flag is present\r",
+									"pm.test('from_date is present in the URL parameters', function() {\r",
+									"  pm.expect(from_date).not.to.be.undefined;\r",
+									"  pm.expect(from_date).not.to.be.null;\r",
+									"});\r",
+									"\r",
+									"// Get the value of flag from the URL parameters\r",
+									"const to_date = pm.request.url.getQueryString('to_date');\r",
+									"\r",
+									"// Check if flag is present\r",
+									"pm.test('to_date is present in the URL parameters', function() {\r",
+									"  pm.expect(to_date).not.to.be.undefined;\r",
+									"  pm.expect(to_date).not.to.be.null;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Define the schema\r",
+									"const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"status\": { \"type\": \"boolean\" },\r",
+									"    \"message\": { \"type\": \"string\" },\r",
+									"    \"data\": {\r",
+									"      \"type\": \"array\",\r",
+									"      \"items\": {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"          \"cheque_upi_person\": { \"type\": \"string\" },\r",
+									"          \"amount\": { \"type\": \"number\" },\r",
+									"          \"student_name\": { \"type\": \"string\" },\r",
+									"          \"term_title\": { \"type\": \"string\" },\r",
+									"          \"fees_sdate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"          \"fees_edate\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"          \"Payment_date\": { \"type\": \"string\", \"format\": \"date-time\" },\r",
+									"          \"transaction_record_id\": { \"type\": \"integer\" }\r",
+									"        },\r",
+									"        \"required\": [\"cheque_upi_person\", \"amount\", \"student_name\", \"term_title\", \"fees_sdate\", \"fees_edate\", \"Payment_date\", \"transaction_record_id\"]\r",
+									"      }\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\"status\", \"message\", \"data\"]\r",
+									"};\r",
+									"\r",
+									"// Validate the response body against the schema, skipping if it starts with '<br />'\r",
+									"pm.test('Response body matches schema', function() {\r",
+									"  const responseBody = pm.response.text();\r",
+									"  if (responseBody.startsWith('<br />')) {\r",
+									"    console.log('Response is not valid JSON, skipping schema validation.');\r",
+									"    return;\r",
+									"  }\r",
+									"  pm.expect(tv4.validate(responseBody, schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test('Empty Response Body', function() {\r",
+									"  const responseBody = pm.response.text();\r",
+									"  if (responseBody.trim() === '' || responseBody.startsWith('<br />')) {\r",
+									"    console.log('Response is empty or contains HTML, skipping test.');\r",
+									"    pm.expect(true).to.be.true; // skip the test\r",
+									"    return;\r",
+									"  }\r",
+									"  pm.expect(responseBody).to.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test('Invalid JSON Response', function() {\r",
+									"  const responseBody = pm.response.text();\r",
+									"  if (responseBody.trim() === '' || responseBody.startsWith('<br />')) {\r",
+									"    console.log('Response is empty or contains HTML, skipping test.');\r",
+									"    pm.expect(true).to.be.true; // skip the test\r",
+									"    return;\r",
+									"  }\r",
+									"  pm.expect(responseBody).to.not.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test('Response contains specific data', function() {\r",
+									"  const responseBody = pm.response.text();\r",
+									"  if (responseBody.startsWith('<br />')) {\r",
+									"    console.log('Response is not valid JSON, skipping test.');\r",
+									"    pm.expect(true).to.be.true; // skip the test\r",
+									"    return;\r",
+									"  }\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.data[0].student_name).to.equal('soham ccc');\r",
+									"});\r",
+									"\r",
+									"pm.test('Response does not contain a required field', function() {\r",
+									"  const responseBody = pm.response.text();\r",
+									"  if (responseBody.startsWith('<br />')) {\r",
+									"    console.log('Response is not valid JSON, skipping test.');\r",
+									"    pm.expect(true).to.be.true; // skip the test\r",
+									"    return;\r",
+									"  }\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.data[0]).to.not.have.property('missing_field');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2018,12 +2937,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{path}}fees/manager_cheque_ru.php",
+							"raw": "{{path}}fees/manager_cheque_ru.php?flag=cheque",
 							"host": [
 								"{{path}}fees"
 							],
 							"path": [
 								"manager_cheque_ru.php"
+							],
+							"query": [
+								{
+									"key": "flag",
+									"value": "cheque"
+								}
 							]
 						}
 					},
@@ -2031,6 +2956,72 @@
 				},
 				{
 					"name": "manager_cheque_ru",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"if (pm.request.body && pm.request.body.formdata) {\r",
+									"    const transactionRecordId = pm.request.body.formdata.get(\"transaction_record_id\");\r",
+									"    const verified = pm.request.body.formdata.get(\"verified\");\r",
+									"\r",
+									"    const jsonData = {\r",
+									"        \"transaction_record_id\": transactionRecordId,\r",
+									"        \"verified\": verified\r",
+									"    };\r",
+									"\r",
+									"    const schema = {\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"            \"transaction_record_id\": { \"type\": \"integer\" },\r",
+									"            \"verified\": { \"type\": \"string\", \"enum\": [\"Y\", \"N\"] }\r",
+									"        },\r",
+									"        \"required\": [\"transaction_record_id\", \"verified\"]\r",
+									"    };\r",
+									"\r",
+									"    pm.variables.set(\"jsonData\", JSON.stringify(jsonData));\r",
+									"    pm.variables.set(\"schema\", JSON.stringify(schema));\r",
+									"} else {\r",
+									"    console.log(\"Form data is missing in the request body.\");\r",
+									"    pm.variables.set(\"jsonData\", \"{}\");\r",
+									"    pm.variables.set(\"schema\", \"{}\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check if the response status is true\r",
+									"if (responseBody.status === true) {\r",
+									"    // Log the success message\r",
+									"    console.log(\"Response status is true. Message: \" + responseBody.message);\r",
+									"    // You can perform additional actions here if needed\r",
+									"} else {\r",
+									"    // Log an error message if the status is false\r",
+									"    console.log(\"Response status is false. Message: \" + responseBody.message);\r",
+									"}\r",
+									"pm.test(\"Response has a status field\", function () {\r",
+									"    pm.response.to.have.jsonBody('status');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has a message field\", function () {\r",
+									"    pm.response.to.have.jsonBody('message');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status is true\", function () {\r",
+									"    pm.expect(pm.response.json().status).to.eql(true);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -2046,7 +3037,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transaction_record_id\": 1\r\n}",
+							"raw": "{\r\n    \"transaction_record_id\": 6,\r\n    \"verified\":\"Y\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4711,7 +5702,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\" : \"Manager\",\r\n    \"password\" : \"Manager\",\r\n    \"app_type\" : \"A\"\r\n}"
+							"raw": "{\r\n    \"username\" : \"Student\",\r\n    \"password\" : \"Student\",\r\n    \"app_type\" : \"A\"\r\n}"
 						},
 						"url": {
 							"raw": "{{path}}registration/login.php",
@@ -5394,6 +6385,153 @@
 				},
 				{
 					"name": "ms_block_room_list",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Define the form data schema\r",
+									"const formDataSchema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"flag\": {\r",
+									"            \"type\": \"string\",\r",
+									"            \"enum\": [\"room\", \"block\"]\r",
+									"        },\r",
+									"        \"is_rector\": {\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"block_number\": {\r",
+									"            \"type\": \"string\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"flag\", \"is_rector\", \"block_number\"]\r",
+									"};\r",
+									"\r",
+									"// Function to convert form data to a JSON object\r",
+									"function getFormDataAsJson(formData) {\r",
+									"    const result = {};\r",
+									"    formData.each(function(item) {\r",
+									"        result[item.key] = item.value;\r",
+									"    });\r",
+									"    return result;\r",
+									"}\r",
+									"\r",
+									"// Get the form data\r",
+									"const formData = pm.request.body.formdata;\r",
+									"const formDataJson = getFormDataAsJson(formData);\r",
+									"\r",
+									"// Log the raw form data for debugging\r",
+									"console.log(\"Raw form data:\", formDataJson);\r",
+									"\r",
+									"// Convert string values to appropriate types\r",
+									"formDataJson.is_rector = formDataJson.is_rector === 'true';\r",
+									"formDataJson.flag = formDataJson.flag.toLowerCase();  // Convert to lowercase to match schema enum\r",
+									"formDataJson.block_number = formDataJson.block_number.toString();\r",
+									"\r",
+									"// Log the converted form data for debugging\r",
+									"console.log(\"Converted form data:\", formDataJson);\r",
+									"\r",
+									"// Validate block_number separately for case-insensitivity\r",
+									"const blockNumberPattern = /^building [0-9]+$/i;  // Case-insensitive pattern\r",
+									"const isValidBlockNumber = blockNumberPattern.test(formDataJson.block_number);\r",
+									"console.log(\"Block number validation result:\", isValidBlockNumber);  // Log validation result\r",
+									"\r",
+									"if (!isValidBlockNumber) {\r",
+									"    console.log(`Validation error: block_number should match pattern \"${blockNumberPattern}\"`);\r",
+									"    throw new Error(\"Form data validation failed\");\r",
+									"}\r",
+									"\r",
+									"// Use Ajv for schema validation\r",
+									"const Ajv = require('ajv');\r",
+									"const ajv = new Ajv();\r",
+									"const validate = ajv.compile(formDataSchema);\r",
+									"const valid = validate(formDataJson);\r",
+									"\r",
+									"if (!valid) {\r",
+									"    console.log(\"Validation errors:\", validate.errors);\r",
+									"    throw new Error(\"Form data validation failed\");\r",
+									"}\r",
+									"\r",
+									"// Log the form data\r",
+									"console.log(\"Form data is valid:\", formDataJson);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Define the Block List Schema\r",
+									"const blockListSchema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"status\": { \"type\": \"boolean\" },\r",
+									"        \"message\": { \"type\": \"string\" },\r",
+									"        \"data\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"properties\": {\r",
+									"                    \"block_number\": { \"type\": \"string\" },\r",
+									"                    \"branch_building_main_id\": { \"type\": \"integer\" } // Assuming integer type for IDs\r",
+									"                },\r",
+									"                \"required\": [\"block_number\", \"branch_building_main_id\"]\r",
+									"            }\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"status\", \"message\", \"data\"]\r",
+									"};\r",
+									"\r",
+									"// Get the response JSON\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"// Validate Block List Schema\r",
+									"pm.test(\"Validate Block List Schema\", function () {\r",
+									"    pm.expect(tv4.validate(responseJson, blockListSchema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"// Additional Test Cases\r",
+									"\r",
+									"// Test Case 1: Check if status is true\r",
+									"pm.test(\"Status is true\", function () {\r",
+									"    pm.expect(responseJson.status).to.be.true;\r",
+									"});\r",
+									"\r",
+									"// Test Case 2: Check if message is \"Block List\"\r",
+									"pm.test(\"Message is 'Block List'\", function () {\r",
+									"    pm.expect(responseJson.message).to.equal(\"Block List\");\r",
+									"});\r",
+									"\r",
+									"// Test Case 3: Check if data is an array\r",
+									"pm.test(\"Data is an array\", function () {\r",
+									"    pm.expect(responseJson.data).to.be.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"// Test Case 4: Check if each item in data has required properties\r",
+									"pm.test(\"Each item in data has required properties\", function () {\r",
+									"    responseJson.data.forEach(item => {\r",
+									"        pm.expect(item).to.have.property(\"block_number\");\r",
+									"        pm.expect(item).to.have.property(\"branch_building_main_id\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test Case 5: Check if branch_building_main_id is an integer\r",
+									"pm.test(\"branch_building_main_id is an integer\", function () {\r",
+									"    responseJson.data.forEach(item => {\r",
+									"        pm.expect(item.branch_building_main_id).to.be.a(\"number\");\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -5412,26 +6550,18 @@
 							"formdata": [
 								{
 									"key": "flag",
-									"value": "Room",
+									"value": "Block",
+									"type": "text"
+								},
+								{
+									"key": "block_number",
+									"value": "Building3",
 									"type": "text"
 								},
 								{
 									"key": "is_rector",
 									"value": "false",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "flag",
-									"value": "Block",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "block_number",
-									"value": "Building3",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								}
 							]
 						},
@@ -6935,6 +8065,106 @@
 				},
 				{
 					"name": "change_username",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// JSON Schema Definition\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"new_user_name\": {\r",
+									"            \"type\": \"string\",\r",
+									"            \"pattern\": \"^[a-zA-Z0-9]+$\"\r",
+									"        },\r",
+									"        \"app_type\": {\r",
+									"            \"type\": \"string\",\r",
+									"            \"enum\": [\"A\", \"I\", \"W\"]\r",
+									"        },\r",
+									"        \"old_user_name\": {\r",
+									"            \"type\": \"string\",\r",
+									"            \"pattern\": \"^[a-zA-Z0-9]+$\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"new_user_name\", \"app_type\", \"old_user_name\"]\r",
+									"};\r",
+									"\r",
+									"// Collect form data\r",
+									"const formData = {};\r",
+									"pm.request.body.formdata.each(function(item) {\r",
+									"    formData[item.key] = item.value;\r",
+									"});\r",
+									"\r",
+									"// Validate form data against schema\r",
+									"pm.test('Form data should conform to the schema', function() {\r",
+									"    const formValidationResult = tv4.validateMultiple(formData, schema);\r",
+									"    pm.expect(formValidationResult.valid).to.be.true;\r",
+									"    if (!formValidationResult.valid) {\r",
+									"        console.log('Form data validation errors: ', formValidationResult.errors);\r",
+									"    }\r",
+									"});\r",
+									"// Check for missing fields in the form data\r",
+									"pm.test('Form data should not have missing fields', function() {\r",
+									"    const requiredFields = ['new_user_name', 'app_type', 'old_user_name'];\r",
+									"    requiredFields.forEach(function(field) {\r",
+									"        pm.expect(formData).to.have.property(field);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Check for invalid field values in the form data\r",
+									"pm.test('Form data should have valid field values', function() {\r",
+									"    pm.expect(formData.new_user_name).to.match(/^[a-zA-Z0-9]+$/);\r",
+									"    pm.expect(formData.app_type).to.be.oneOf(['A', 'I', 'W']);\r",
+									"    pm.expect(formData.old_user_name).to.match(/^[a-zA-Z0-9]+$/);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// JSON Schema Definition\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"status\": {\r",
+									"            \"type\": \"boolean\"\r",
+									"        },\r",
+									"        \"message\": {\r",
+									"            \"type\": \"string\"\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"status\", \"message\"]\r",
+									"};\r",
+									"\r",
+									"// Parse the response body\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"// Validate the response against the schema\r",
+									"pm.test('Response should conform to the schema', function() {\r",
+									"    pm.expect(tv4.validate(responseJson, schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"// Additional tests\r",
+									"pm.test('Status should be true', function() {\r",
+									"    pm.expect(responseJson.status).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test('Message should be \"Username change successfully\"', function() {\r",
+									"    pm.expect(responseJson.message).to.equal('Username change sucessfully');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -6953,19 +8183,18 @@
 							"formdata": [
 								{
 									"key": "new_user_name",
-									"value": "Guest1",
+									"value": "Student",
 									"type": "text"
 								},
 								{
 									"key": "app_type",
-									"value": "F",
+									"value": "A",
 									"type": "text"
 								},
 								{
 									"key": "old_user_name",
 									"value": "Guest1",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								}
 							]
 						},
@@ -7007,6 +8236,23 @@
 							],
 							"path": [
 								"profile_update_new.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sp_hostel_details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}settings/sp_hostel_details.php",
+							"host": [
+								"{{path}}settings"
+							],
+							"path": [
+								"sp_hostel_details.php"
 							]
 						}
 					},
@@ -8784,6 +10030,92 @@
 				},
 				{
 					"name": "manager_student_remove",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Define the JSON schema for user_code\r",
+									"const userCodeSchema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"user_code\": {\r",
+									"      \"type\": \"string\",\r",
+									"      \"pattern\": \"^[a-zA-Z]+\\\\d*$\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\"user_code\"]\r",
+									"};\r",
+									"\r",
+									"// Get the form data\r",
+									"const userCode = pm.variables.get(\"user_code\");\r",
+									"\r",
+									"// Create data object for validation\r",
+									"const userData = { \"user_code\": userCode };\r",
+									"\r",
+									"// Validate the user_code using tv4 (Postman's built-in JSON schema validator)\r",
+									"const validationResult = tv4.validateMultiple(userData, userCodeSchema);\r",
+									"\r",
+									"if (!validationResult.valid) {\r",
+									"  pm.environment.set(\"user_code_validation_errors\", JSON.stringify(validationResult.errors));\r",
+									"  throw new Error(\"Validation failed: \" + JSON.stringify(validationResult.errors));\r",
+									"}\r",
+									"\r",
+									"// If validation passes, clear any previous errors\r",
+									"pm.environment.unset(\"user_code_validation_errors\");\r",
+									"// Check if there were any validation errors in the pre-request script\r",
+									"const validationErrors = pm.environment.get(\"user_code_validation_errors\");\r",
+									"\r",
+									"pm.test(\"User code validation\", function () {\r",
+									"  pm.expect(validationErrors).to.be.undefined;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Define the JSON schema\r",
+									"const responseSchema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"status\": {\r",
+									"      \"type\": \"boolean\"\r",
+									"    },\r",
+									"    \"message\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\"status\", \"message\"]\r",
+									"};\r",
+									"\r",
+									"// Parse the response body\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"// Validate the response against the schema\r",
+									"pm.test(\"Validate response schema\", function () {\r",
+									"  pm.response.to.have.jsonSchema(responseSchema);\r",
+									"});\r",
+									"\r",
+									"// Additional tests\r",
+									"pm.test(\"Status is true\", function () {\r",
+									"  pm.expect(responseJson.status).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message is 'Student Removed Successfully'\", function () {\r",
+									"  pm.expect(responseJson.message).to.equal(\"Student Removed Successfully\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
